@@ -10,7 +10,7 @@ export default function useLocalStroage(key, defaultValue) {
                 localStorage.getItem(key) || String(defaultValue)
             );
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             currentValue = defaultValue;
         }
 

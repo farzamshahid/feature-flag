@@ -5,40 +5,41 @@ import RandomColor from '../Random-color/randomColor'
 import Accordian from '../accordian/index'
 import { useContext } from 'react'
 import { FeatureFlagContext } from './context'
+import menus from '../Tree-View/data'
+export default function FeatureFlags() {
+    const { loading, enabledFlags } = useContext(FeatureFlagContext);
 
-const FeatureFlag = () => {
-    const [loading, enabledFlags] = useContext(FeatureFlagContext)
     const componentsToRender = [
         {
-            key: 'showLightAndDarkMode',
-            component: <LightDarkMode />
+            key: "showLightAndDarkMode",
+            component: <LightDarkMode />,
         },
         {
-            key: 'showTreeView',
-            component: <TreeView menus={menus} />
-        }, {
-            key: 'showAccordian',
-            component: <Accordian />
-        }, {
-            key: 'showRandomColorGenerator',
-            component: <RandomColor />
+            key: "showRandomColorGenerator",
+            component: <RandomColor />,
+        },
+        {
+            key: "showAccordian",
+            component: <Accordian />,
+        },
+        {
+            key: "showTreeView",
+            component: <TreeView menus={menus} />,
         }
-    ]
-    function checkedEnabledFlags(getCurrentId) {
-        return enabledFlags(getCurrentId)
+    ];
+
+    function checkEnabledFlags(getCurrentKey) {
+        return enabledFlags[getCurrentKey];
     }
-    if (loading) return <h1>Loading data please wait</h1>
+
+    if (loading) return <h1>Loading data ! Please wait</h1>;
+
     return (
         <div>
-            <h1>
-
-                feature-flag
-            </h1>
-            {
-                componentsToRender.map(component => checkedEnabledFlags(component.key) ? component.component : null)
-            }
+            <h1>Feature Flags</h1>
+            {componentsToRender.map((componentItem) =>
+                checkEnabledFlags(componentItem.key) ? componentItem.component : null
+            )}
         </div>
-    )
+    );
 }
-
-export default FeatureFlag
